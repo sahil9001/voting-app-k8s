@@ -1,0 +1,37 @@
+# PostgreSQL Database Deployment Configuration
+# This deployment manages a PostgreSQL database instance that stores voting data
+# Uses the official PostgreSQL 15 Alpine image for lightweight deployment
+# Uses Deployment instead of Pod for better reliability and scalability
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: db
+  labels:
+    app: db
+spec:
+  # Number of database replicas - set to 1 for this demo
+  # Note: PostgreSQL clustering requires special configuration for multiple replicas
+  replicas: 1
+  selector:
+    matchLabels:
+      app: db
+  template:
+    metadata:
+      name: db
+      labels:
+        app: db
+    spec:
+      containers:
+        - name: postgres
+          # Official PostgreSQL 15 image with Alpine Linux for smaller footprint
+          image: postgres:15-alpine
+          env:
+            # Database credentials - in production, use secrets instead of plain text
+            - name: POSTGRES_USER
+              value: postgres
+            - name: POSTGRES_PASSWORD
+              value: postgres
+          ports:
+            # Standard PostgreSQL port for database connections
+            - containerPort: 5432
+              name: postgres

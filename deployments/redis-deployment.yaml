@@ -1,0 +1,31 @@
+# Redis Cache Deployment Configuration
+# This deployment manages a Redis instance used for caching and message queuing
+# Redis acts as a message broker between the voting app and worker
+# Uses Deployment instead of Pod for better reliability and scalability
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redis
+  labels:
+    app: redis
+spec:
+  # Number of Redis replicas - set to 1 for this demo
+  # Note: Redis clustering requires special configuration for multiple replicas
+  replicas: 1
+  selector:
+    matchLabels:
+      app: redis
+  template:
+    metadata:
+      name: redis
+      labels:
+        app: redis
+    spec:
+      containers:
+        - name: redis
+          # Official Redis image with Alpine Linux for minimal resource usage
+          image: redis:alpine
+          ports:
+            # Standard Redis port for cache and message queue operations
+            - containerPort: 6379
+              name: redis

@@ -1,0 +1,29 @@
+# Worker Deployment Configuration
+# This deployment manages the background worker that processes votes from Redis queue
+# The worker consumes vote messages and stores them in the PostgreSQL database
+# Uses Deployment instead of Pod for better reliability and scalability
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: worker
+  labels:
+    app: worker
+spec:
+  # Number of worker replicas - set to 1 for this demo
+  # In production, you might want multiple workers for high availability
+  replicas: 1
+  selector:
+    matchLabels:
+      app: worker
+  template:
+    metadata:
+      name: worker
+      labels:
+        app: worker
+    spec:
+      containers:
+        - name: worker
+          # Docker sample voting app worker service - processes votes asynchronously
+          image: dockersamples/examplevotingapp_worker
+          # No ports exposed as this is a background worker service
+          # The worker communicates with Redis and PostgreSQL via their services

@@ -1,0 +1,22 @@
+# PostgreSQL Database Service Configuration
+# This service exposes the PostgreSQL database deployment to other pods in the cluster
+# Uses ClusterIP type for internal cluster communication only
+# The service automatically discovers pods created by the db deployment
+apiVersion: v1
+kind: Service
+metadata:
+  name: db
+  labels:
+    app: db
+spec:
+  # ClusterIP service type - only accessible within the cluster
+  type: ClusterIP
+  ports:
+    - name: "db-service"
+      # External port for the service
+      port: 5432
+      # Port on the target pod container
+      targetPort: 5432
+  selector:
+    # Selects pods with label app: db (matches the deployment template labels)
+    app: db

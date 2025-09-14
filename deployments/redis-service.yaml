@@ -1,0 +1,21 @@
+# Redis Cache Service Configuration
+# This service exposes the Redis pod to other pods in the cluster
+# Uses ClusterIP type for internal cluster communication only
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis
+  labels:
+    app: redis
+spec:
+  # ClusterIP service type - only accessible within the cluster
+  type: ClusterIP
+  ports:
+    - name: "redis-service"
+      # External port for the service
+      port: 6379
+      # Port on the target pod container
+      targetPort: 6379
+  selector:
+    # Selects pods with label app: redis
+    app: redis

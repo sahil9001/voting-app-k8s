@@ -1,0 +1,31 @@
+# Voting Application Deployment Configuration
+# This deployment manages the main voting application where users cast their votes
+# Provides a web interface for users to vote between different options
+# Uses Deployment instead of Pod for better reliability and scalability
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vote
+  labels:
+    app: vote
+spec:
+  # Number of voting app replicas - set to 1 for this demo
+  # In production, you might want multiple replicas for load balancing
+  replicas: 1
+  selector:
+    matchLabels:
+      app: vote
+  template:
+    metadata:
+      name: vote
+      labels:
+        app: vote
+    spec:
+      containers:
+        - name: vote
+          # Docker sample voting app vote service - handles user voting interface
+          image: dockersamples/examplevotingapp_vote
+          ports:
+            # HTTP port for serving the voting web interface
+            - containerPort: 80
+              name: vote
