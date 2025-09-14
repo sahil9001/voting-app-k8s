@@ -1,0 +1,23 @@
+# Voting Application Service Configuration
+# This service exposes the voting application to external users
+# Uses NodePort type to make the service accessible from outside the cluster
+apiVersion: v1
+kind: Service
+metadata:
+  name: vote
+  labels:
+    app: vote
+spec:
+  # NodePort service type - accessible from outside the cluster
+  type: NodePort
+  ports:
+    - name: "vote-service"
+      # Internal cluster port
+      port: 8080
+      # Port on the target pod container
+      targetPort: 80
+      # External port accessible on any node (30000-32767 range)
+      nodePort: 31000
+  selector:
+    # Selects pods with label app: vote
+    app: vote

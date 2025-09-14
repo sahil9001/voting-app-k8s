@@ -1,0 +1,15 @@
+# Worker Pod Configuration
+# This pod runs a background worker that processes votes from Redis queue
+# Consumes vote messages and stores them in the PostgreSQL database
+apiVersion: v1
+kind: Pod
+metadata:
+  name: worker
+  labels:
+    app: worker
+spec:
+  containers:
+    - name: worker
+      # Docker sample voting app worker service - processes votes asynchronously
+      image: dockersamples/examplevotingapp_worker
+      # No ports exposed as this is a background worker service

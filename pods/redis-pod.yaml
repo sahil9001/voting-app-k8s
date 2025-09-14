@@ -1,0 +1,18 @@
+# Redis Cache Pod Configuration
+# This pod runs a Redis instance used for caching and message queuing
+# Redis acts as a message broker between the voting app and worker
+apiVersion: v1
+kind: Pod
+metadata:
+  name: redis
+  labels:
+    app: redis
+spec:
+  containers:
+    - name: redis
+      # Official Redis image with Alpine Linux for minimal resource usage
+      image: redis:alpine
+      ports:
+        # Standard Redis port for cache and message queue operations
+        - containerPort: 6379
+          name: redis

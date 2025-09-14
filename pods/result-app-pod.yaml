@@ -1,0 +1,18 @@
+# Result Application Pod Configuration
+# This pod runs the result display application that shows voting statistics
+# Displays real-time voting results in a web interface
+apiVersion: v1
+kind: Pod
+metadata:
+  name: result
+  labels:
+    app: result
+spec:
+  containers:
+    - name: result
+      # Docker sample voting app result service - displays voting results
+      image: dockersamples/examplevotingapp_result
+      ports:
+        # HTTP port for serving the result web interface
+        - containerPort: 80
+          name: result

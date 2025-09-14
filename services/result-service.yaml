@@ -1,0 +1,23 @@
+# Result Application Service Configuration
+# This service exposes the result application to external users
+# Uses NodePort type to make the service accessible from outside the cluster
+apiVersion: v1
+kind: Service
+metadata:
+  name: result
+  labels:
+    app: result
+spec:
+  # NodePort service type - accessible from outside the cluster
+  type: NodePort
+  ports:
+    - name: "result-service"
+      # Internal cluster port
+      port: 8081
+      # Port on the target pod container
+      targetPort: 80
+      # External port accessible on any node (30000-32767 range)
+      nodePort: 31001
+  selector:
+    # Selects pods with label app: result
+    app: result
